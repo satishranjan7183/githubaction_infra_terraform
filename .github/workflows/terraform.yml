@@ -51,41 +51,36 @@ jobs:
         run: terraform plan -input=false
         continue-on-error: true
         working-directory: environment/dev 
-      # - name: Terraform init azurerm backend  
-      #   uses: ahmedig/terraform-azurerm-backend@v4
-      #   with:
-      #     # Azure Credentials in JSON format
-      #     azure_credentials: 
-      #     resource_group_name: 
-      #     container_name: 
-      #     storage_account_name: 
-      #     file_name: # optional, default is terraform.tfstate
-      #     subscription_id: # optional, default is empty
-      #     tf_working_directory: # optional, default is .
 
-    #   # ✅ Login to Azure using Service Principal
-    #   - name: Azure Login
-    #     uses: azure/login@v2
-    #     with:
-    #       client-id: ${{ secrets.AZURE_AD_CLIENT_ID }}
-    #       tenant-id: ${{ secrets.AZURE_AD_TENANT_ID }}
-    #       subscription-id: ${{ secrets.AZURE_AD_SUBSCRIPTION_ID }}
-    #       client-secret: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+  terraform-init-apply:
+    needs: terraform-init-plan
+    environment: dev
+    runs-on: ubuntu-latest
 
-    #   # ✅ Setup Terraform
-    #   - name: Setup Terraform
-    #     uses: hashicorp/setup-terraform@v3
-    #     with:
-    #       terraform_version: 1.8.5  # or whichever version you prefer
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5.0.0
+        
+      - name: Install Terraform
+        uses: autero1/action-terraform@v3.0.1
+        with: 
+         terraform-version: 1.13.0 
+         
+      - name: Azure Login
+        uses: Azure/login@v2.3.0
+        with:
+          client-id: d21ebd3d-5905-4aec-b680-28f5c40156e7
+          tenant-id: 8839fa1a-72d2-4f19-8736-4c73cf13d7a6
+          subscription-id: 38d52de4-2fb6-4a85-96fb-5ba22d363e4e
 
-    #   # ✅ Terraform Init
-    #   - name: Terraform Init
-    #     run: terraform init
-    #     # working-directory: ./
-    #     working-directory: environment/dev
+      - name: Terraform init
+        id: init
+        run: terraform init -input=false
+        working-directory: environment/dev
 
-    #   # ✅ Terraform Plan
-    #   - name: Terraform Plan
-    #     run: terraform plan
-    #      # working-directory: ./
-    #     working-directory: environment/dev
+      - name: Terraform apply
+        id: apply
+        run: terraform apply --auto-approve
+        continue-on-error: true
+        working-directory: environment/dev         
+
