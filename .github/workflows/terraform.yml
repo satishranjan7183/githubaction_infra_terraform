@@ -15,21 +15,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: dhondu
-        run: echo dhoneu
       - name: Checkout code
         uses: actions/checkout@v5.0.0
+        
       - name: Install Terraform
         uses: autero1/action-terraform@v3.0.1
         with: 
          terraform-version: 1.13.0 
+         
       - name: Azure Login
         uses: Azure/login@v2.3.0
         with:
           client-id: d21ebd3d-5905-4aec-b680-28f5c40156e7
           tenant-id: 8839fa1a-72d2-4f19-8736-4c73cf13d7a6
           subscription-id: 38d52de4-2fb6-4a85-96fb-5ba22d363e4e
-
+          
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
           
       # - name: Terraform init azurerm backend  
       #   uses: ahmedig/terraform-azurerm-backend@v4
