@@ -14,9 +14,11 @@ jobs:
   terraform-init-plan:
     runs-on: ubuntu-latest
 
-    # steps:
-    #   - name: Checkout code
-    #     uses: actions/checkout@v4
+    steps:
+      - name: dhondu
+        run: echo dhoneu
+      - name: Checkout code
+        uses: actions/checkout@v4
 
     #   # ✅ Login to Azure using Service Principal
     #   - name: Azure Login
