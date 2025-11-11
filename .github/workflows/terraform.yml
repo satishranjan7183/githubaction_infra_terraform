@@ -40,7 +40,17 @@ jobs:
         id: init
         run: terraform init -input=false
         working-directory: environment/dev
-        
+
+      - name: Terraform validate
+        id: validate
+        run: terraform validate -no-color
+        working-directory: environment/dev
+
+      - name: Terraform plan
+        id: plan
+        run: terraform plan -input=false
+        continue-on-error: true
+        working-directory: environment/dev 
       # - name: Terraform init azurerm backend  
       #   uses: ahmedig/terraform-azurerm-backend@v4
       #   with:
