@@ -22,7 +22,7 @@ jobs:
       - name: Install Terraform
         uses: autero1/action-terraform@v3.0.1
         with: 
-         version: 1.13.0 
+         terraform-version: 1.13.0 
 
     #   # ✅ Login to Azure using Service Principal
     #   - name: Azure Login
