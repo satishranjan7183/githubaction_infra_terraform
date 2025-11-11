@@ -34,7 +34,13 @@ jobs:
         id: fmt
         run: terraform fmt -check
         continue-on-error: true
-          
+        working-directory: environment/dev
+
+      - name: Terraform init
+        id: init
+        run: terraform init -input=false
+        working-directory: environment/dev
+        
       # - name: Terraform init azurerm backend  
       #   uses: ahmedig/terraform-azurerm-backend@v4
       #   with:
