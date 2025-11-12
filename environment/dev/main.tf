@@ -10,6 +10,6 @@ module "aks" {
 
 module "acr" {
   depends_on = [module.rg]
-  source     = "../../modules/azurerm-acr"
+  source     = "../../modules/3_acr"
   acrs       = var.dev_acrs
 }
