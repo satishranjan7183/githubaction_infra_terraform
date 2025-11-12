@@ -23,3 +23,12 @@ dev_aks_clusters = {
     }
   }
 }
+
+dev_acrs = {
+  "acr1" = {
+    acr_name = "devtodoacrwestus1"
+    rg_name  = "dev-todo-rg-westus"
+    location = "West US"
+    sku      = "Standard"
+  }
+}
