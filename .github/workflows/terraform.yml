@@ -33,7 +33,7 @@ jobs:
         uses: terraform-linters/tflint-action@v4
         with:
           args: --init --recursive
-        working-directory: environment/dev
+          working-directory: environment/dev
 
       # 3️⃣ Run TFSec (Security Misconfiguration)
       - name: Run TFSec
