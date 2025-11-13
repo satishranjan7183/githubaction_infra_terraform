@@ -14,6 +14,49 @@ permissions:
   contents: read
 
 jobs:
+  terraform-security-scan:
+    name: Terraform Security & Lint Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+
+      # 1️⃣ Run TruffleHog (Secret Scan)
+      - name: Scan for Secrets using TruffleHog
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: .
+
+      # 2️⃣ Run TFLint (Code Linting)
+      - name: Run TFLint
+        uses: terraform-linters/tflint-action@v4
+        with:
+          args: --init --recursive
+        working-directory: environment/dev
+
+      # 3️⃣ Run TFSec (Security Misconfiguration)
+      - name: Run TFSec
+        uses: aquasecurity/tfsec-action@v1.0.0
+        with:
+          working_directory: environment/dev
+          args: --severity HIGH
+
+      # 4️⃣ Run Checkov (Compliance Scan)
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: environment/dev
+          framework: terraform
+          soft_fail: false
+
+      # 5️⃣ Run Terrascan (Policy as Code)
+      - name: Run Terrascan
+        uses: tenable/terrascan-action@v1.5.0
+        with:
+          iac_type: terraform
+          iac_dir: environment/dev
+
   terraform-init-plan:
     runs-on: ubuntu-latest
 
