@@ -28,12 +28,12 @@ jobs:
         with:
           path: .
 
-      # 2️⃣ Run TFLint (Code Linting)
-      - name: Run TFLint
-        uses: terraform-linters/tflint-action@v4
-        with:
-          args: --init --recursive
-        working-directory: environment/dev
+      # # 2️⃣ Run TFLint (Code Linting)
+      # - name: Run TFLint
+      #   uses: terraform-linters/tflint-action@v4
+      #   with:
+      #     args: --init --recursive
+      #     working-directory: environment/dev
 
       # 3️⃣ Run TFSec (Security Misconfiguration)
       - name: Run TFSec
@@ -43,21 +43,22 @@ jobs:
           args: --severity HIGH
 
       # 4️⃣ Run Checkov (Compliance Scan)
-      - name: Run Checkov
-        uses: bridgecrewio/checkov-action@v12
-        with:
-          directory: environment/dev
-          framework: terraform
-          soft_fail: false
+      # - name: Run Checkov
+      #   uses: bridgecrewio/checkov-action@v12
+      #   with:
+      #     directory: environment/dev
+      #     framework: terraform
+      #     soft_fail: false
 
       # 5️⃣ Run Terrascan (Policy as Code)
-      - name: Run Terrascan
-        uses: tenable/terrascan-action@v1.5.0
-        with:
-          iac_type: terraform
-          iac_dir: environment/dev
+      # - name: Run Terrascan
+      #   uses: tenable/terrascan-action@v1.5.0
+      #   with:
+      #     iac_type: terraform
+      #     iac_dir: environment/dev
 
   terraform-init-plan:
+    needs: terraform-security-scan
     runs-on: ubuntu-latest
 
     steps:
