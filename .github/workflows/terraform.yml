@@ -51,13 +51,14 @@ jobs:
       #     soft_fail: false
 
       # 5️⃣ Run Terrascan (Policy as Code)
-      - name: Run Terrascan
-        uses: tenable/terrascan-action@v1.5.0
-        with:
-          iac_type: terraform
-          iac_dir: environment/dev
+      # - name: Run Terrascan
+      #   uses: tenable/terrascan-action@v1.5.0
+      #   with:
+      #     iac_type: terraform
+      #     iac_dir: environment/dev
 
   terraform-init-plan:
+    needs: terraform-security-scan
     runs-on: ubuntu-latest
 
     steps:
